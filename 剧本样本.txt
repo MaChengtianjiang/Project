@@ -1,0 +1,30 @@
+#2018/01/21
+#台词样本
+#打开对话框(附带角色名)
+[OpenCharaSeirfWindow];
+#显示角色图片(角色，王凯, 表情1)
+[ShowChara,Image = WangKai, Face = 1]；
+#名字 王凯 台词 今天天气真好。
+[CharaSeirfWindow,Name = 王凯，Serif = 今天天气真好啊];
+# 关闭对话框
+[CloseCharaSeirfWindow];
+# 打开分支选择对话框 (3种选择)
+[OpenSelectBranchWindow, Branch = 3, 是啊 天气好, 昨天天气更好, 听说马上要下雨了];
+#分支1
+[IFType1]
+[OpenCharaSeirfWindow];
+[CharaSeirfWindow,Name = 王凯，Serif = 对吧对吧];
+#分支2
+[IFType2]
+[OpenCharaSeirfWindow];
+[CharaSeirfWindow,Name = 王凯，Serif = 昨天没出门不知道];
+#分支3
+[IFType3]
+[OpenCharaSeirfWindow];
+[CharaSeirfWindow,Name = 王凯，Serif = 赶快回家取伞];
+#结束分支
+[EndIf]
+[CharaSeirfWindow,Name = 王凯，Serif = 再见];
+#关闭对话框
+[CloseCharaSeirfWindow];
+#结束
