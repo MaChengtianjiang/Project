@@ -1,2 +1,27 @@
-.Library/*
+Library
 Temp
+Temp.meta
+Build
+App/Assets/Photon Unity Networking/Demos*
+*.csproj
+*.unityproj
+*.sln
+*.userprefs
+*.user
+obj
+Save
+Assembly-CSharp-Editor.csproj.FilesWrittenAbsolute.txt
+Assembly-CSharp-Editor.dll
+Assembly-CSharp-Editor.dll.mdb
+Assembly-CSharp.csproj.FilesWrittenAbsolute.txt
+Assembly-CSharp.dll
+Assembly-CSharp.dll.mdb
+Bin
+/AssetBundles
+Android/.metadata
+Android/*/.settings
+TempExternalSounds
+AssetBundleLogs
+
+# Visual Studio
+.vs/
