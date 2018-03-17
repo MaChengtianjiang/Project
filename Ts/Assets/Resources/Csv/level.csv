@@ -1,4 +1,6 @@
-等级,升级时间,成长率,杀怪时间,杀怪数量,怪物经验,怪物经验成长率,玩家经验,攻击基础值,成长加攻击,自身攻击力,武器指数,武器攻击力,实际攻击力
+#等级,升级时间,成长率,杀怪时间,杀怪数量,怪物经验,怪物经验成长率,玩家经验,攻击基础值,成长加攻击,自身攻击力,武器指数,武器攻击力,实际攻击力
+Level,LvlUpTime,Growth,KillTime,KillMonsterCount,MonsterExpMonsterExpGrowth,,PlayerExp,BasicAtk,AddAtk,Atk,WeaponLevel,WeaponAtk,RealityAtk
+int,float,float,float,float,float,float,float,float,float,float,float,int,int
 1,10,0.10746,10,1,10,0.08,10,10,1,10,3,30,40
 2,11.0746,0.10746,10,1.10746,10.8,0.08,11.960568,10,1,11,3,30,41
 3,12.26467652,0.10746,10,1.226467652,11.664,0.08,14.30551869,10,1,12,3,30,42
