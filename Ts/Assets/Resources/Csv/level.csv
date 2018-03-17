@@ -1,4 +1,4 @@
-#µÈ¼¶,Éı¼¶Ê±¼ä,³É³¤ÂÊ,É±¹ÖÊ±¼ä,É±¹ÖÊıÁ¿,¹ÖÎï¾­Ñé,¹ÖÎï¾­Ñé³É³¤ÂÊ,Íæ¼Ò¾­Ñé,¹¥»÷»ù´¡Öµ,³É³¤¼Ó¹¥»÷,×ÔÉí¹¥»÷Á¦,ÎäÆ÷Ö¸Êı,ÎäÆ÷¹¥»÷Á¦,Êµ¼Ê¹¥»÷Á¦
+#ç­‰çº§,å‡çº§æ—¶é—´,æˆé•¿ç‡,æ€æ€ªæ—¶é—´,æ€æ€ªæ•°é‡,æ€ªç‰©ç»éªŒ,æ€ªç‰©ç»éªŒæˆé•¿ç‡,ç©å®¶ç»éªŒ,æ”»å‡»åŸºç¡€å€¼,æˆé•¿åŠ æ”»å‡»,è‡ªèº«æ”»å‡»åŠ›,æ­¦å™¨æŒ‡æ•°,æ­¦å™¨æ”»å‡»åŠ›,å®é™…æ”»å‡»åŠ›
 Level,LvlUpTime,Growth,KillTime,KillMonsterCount,MonsterExpMonsterExpGrowth,,PlayerExp,BasicAtk,AddAtk,Atk,WeaponLevel,WeaponAtk,RealityAtk
 int,float,float,float,float,float,float,float,float,float,float,float,int,int
 1,10,0.10746,10,1,10,0.08,10,10,1,10,3,30,40
