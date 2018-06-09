@@ -40,7 +40,7 @@ public class CsvLoader
         Dictionary<string, string> dataTypeTable = new Dictionary<string, string>();
 
         LoadType currentLoadType = LoadType.LoadKey;
-        for (int i = 0; i < strLine.Length -1  ; i++)
+        for (int i = 0; i < strLine.Length - 1; i++)
         {
             string currentStrLine = strLine[i];
             // 忽略行 忽略符号 #

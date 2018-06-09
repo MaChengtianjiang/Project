@@ -19,13 +19,17 @@ public class GameManager : Singleton<GameManager> {
 
 	void Awake() {
 		DontDestroyOnLoad(this);
-		Dictionary<int, DataTable> charaTable = CsvLoader.LoadDataBaseCsv("CharaDatas");
-		var x = charaTable[5];
+		Dictionary<int, DataTable> charaTable = CsvLoader.LoadDataBaseCsv("level");
+		var x = charaTable[50];
 		
-		Debug.Log("id:" + charaTable[5].GetIntValue("ID") + "的Value:" + x.GetSrtingValue("Job"));
+		Debug.Log("id:" + charaTable[50].GetIntValue("Level") + "的Value:" + x.GetFloatValue("PlayerExp"));
 		SceneManager.Instance.transform.SetParent(this.transform);
 
-		ScenarioController.StartScenarion();
+		//ScenarioController.StartScenarion();
+
+		var text = TxtLoder.Load("Scenario1");
+
+		
 	}
 
 
