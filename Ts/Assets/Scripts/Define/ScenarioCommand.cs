@@ -8,11 +8,10 @@
  *Date:         2018-03-17 
  *Description:    
  *History: 
-*/  
+ */
 
 using System.Collections;
 using System.Collections.Generic;
-
 
 namespace Scenario {
     public enum ScenarioCommandType {
@@ -26,7 +25,21 @@ namespace Scenario {
         CharaSeirfWindow,
     }
 
-    public class ScenarioCommand {
-        
+    public abstract class ScenarioCommand {
+        public ScenarioCommandType CommandType;
+
+        public void SetActionName (ScenarioCommandType commandType) {
+            CommandType = commandType;
+        }
+        protected string LabelName { get; private set; }
+        // ラベル名のセット.
+        public void SetLabel (string labelName) {
+            LabelName = labelName;
+        }
+
+    }
+
+    public class OpenCharaSeirfWindow : ScenarioCommand {
+
     }
 }
