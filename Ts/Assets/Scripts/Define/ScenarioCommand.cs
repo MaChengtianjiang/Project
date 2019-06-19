@@ -28,11 +28,11 @@ namespace Scenario {
     public abstract class ScenarioCommand {
         public ScenarioCommandType CommandType;
 
-        public void SetActionName (ScenarioCommandType commandType) {
+        public void SetActionType (ScenarioCommandType commandType) {
             CommandType = commandType;
         }
         protected string LabelName { get; private set; }
-        // ラベル名のセット.
+        // 标签名
         public void SetLabel (string labelName) {
             LabelName = labelName;
         }
@@ -41,5 +41,9 @@ namespace Scenario {
 
     public class OpenCharaSeirfWindow : ScenarioCommand {
 
+        public OpenCharaSeirfWindow () {
+            this.SetActionType (ScenarioCommandType.OpenCharaSeirfWindow);
+            this.SetLabel("打开对话框");
+        }
     }
 }

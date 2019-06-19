@@ -15,15 +15,59 @@ namespace Scenario {
         //解析中的文字列
         private static string CurrentReadingLine = null;
 
+        public static readonly char TagStart = '[';
+
         //解析文字列成命令
-        public List<ScenarioCommand> ParseScriptListToCommand (List<string> scriptTextList) {
+        public static List<ScenarioCommand> ParseScriptListToCommand (List<string> scriptTextList) {
 
             //结果命令列表
             var result = new List<ScenarioCommand> ();
+
+            //结果命令标签列表
+            Dictionary<string, List<ScenarioCommand>> labelActions = new Dictionary<string, List<ScenarioCommand>> ();
+
+            var lineCount = 0;
+            while (true) {
+
+                string line = scriptTextList[lineCount];
+                CurrentReadingLine = line;
+
+                if (line[0] == TagStart) {
+
+                    // Tag的场合.
+
+                    // 变换这一行.
+                    Dictionary<string, string> lineDictionary = ConvertLine (line);
+                    string actionName = lineDictionary["actionName"];
+                    ScenarioCommand action = null;
+
+                    // 可以用Enum.IsDefined(typeof(ScriptCommandConst.SoundType), actionName)来进行判定、
+                    // 但是速度慢，维持现状
+
+                    switch (actionName) {
+                        case "OpenCharaSeirfWindow":
+                            action = new OpenCharaSeirfWindow ();
+                            Debug.Log ("OpenCharaSeirfWindow.读取成功");
+                            break;
+                    }
+
+                    // if (actionName.StartsWith ("OpenCharaSeirfWindow")) {
+                    //     // シナリオタグで始まる場合.
+                    //     action = new OpenCharaSeirfWindow ();
+
+                    //     Debug.Log ("OpenCharaSeirfWindow.读取成功");
+                    // }
+
+                }
+                lineCount++;
+
+                if (lineCount >= scriptTextList.Count) {
+                    // 读完了 处理结束.
+                    break;
+                }
+            }
             return result;
         }
-
-        Dictionary<string, List<ScenarioCommand>> actionMap = new Dictionary<string, List<ScenarioCommand>> ();
 
         // 分割指定行的标签和属性.
         private static Dictionary<string, string> ConvertLine (string line) {
@@ -50,7 +94,7 @@ namespace Scenario {
             int doubleQuartCount = tmpLine.Length - tmpLine.Replace ("\"", "").Length;
             spaceCount -= doubleQuartCount / 2;
             if ((0 < spaceCount) && !tmpLine.StartsWith ("*")) {
-                Debug.LogWarning ("存在违反规则的半角空格:" + spaceCount + " .");
+                Debug.LogWarning ("存在违反规则的半角空格:" + CurrentReadingLine + "空格处:" + spaceCount + ".");
 
                 // 分割文字列.
                 int firstSpaceIndex = line.IndexOf (' ');
@@ -59,44 +103,46 @@ namespace Scenario {
                 splitChar = new char[] { '[', ']', ' ', '=', '"', '*' };
                 line = line.Substring (firstSpaceIndex);
                 List<String> addLineSplit = line.Split (splitChar, StringSplitOptions.RemoveEmptyEntries).ToList ();
-                for (int ii = 0; ii < addLineSplit.Count; ++ii) {
-                    int firstIndex = addLineSplit[ii].IndexOf (' ');
-                    int lastIndex = addLineSplit[ii].LastIndexOf (' ');
+                for (int i = 0; i < addLineSplit.Count; ++i) {
+                    int firstIndex = addLineSplit[i].IndexOf (' ');
+                    int lastIndex = addLineSplit[i].LastIndexOf (' ');
                     if (firstIndex != -1) {
-                        addLineSplit[ii] = addLineSplit[ii].Substring (1);
+                        addLineSplit[i] = addLineSplit[i].Substring (1);
                     }
                     if ((lastIndex != -1) && (lastIndex != firstIndex)) {
-                        addLineSplit[ii] = addLineSplit[ii].Substring (0, addLineSplit[ii].Length);
+                        addLineSplit[i] = addLineSplit[i].Substring (0, addLineSplit[i].Length);
                     }
-                    splitLine.Add (addLineSplit[ii]);
+                    splitLine.Add (addLineSplit[i]);
                 }
             } else {
-                // 文字列の分割.
+                // 分割文字列.
                 splitChar = new char[] { '[', ']', ' ', '=', '"', '*' };
-                // emptyを許容しない.
+                // 不允许有empty
                 splitLine = line.Split (splitChar, StringSplitOptions.RemoveEmptyEntries).ToList ();
             }
 
 #if false
-            for (int ii = 0; ii < splitLine.Count; ++ii) {
-                Debug.LogWarning (ii + " : " + splitLine[ii]);
+            for (int i = 0; i < splitLine.Count; ++i) {
+                Debug.LogWarning (i + " : " + splitLine[i]);
             }
 #endif
 
-            // 大文字で格納.
-            lineDictionary.Add ("actionName", splitLine[0].ToUpper ());
+            // 用大写字母封装.
+            lineDictionary.Add ("actionName", splitLine[0]);
 
-            for (int ii = 1; ii < splitLine.Count; ii += 2) {
-                lineDictionary.Add (splitLine[ii], splitLine[ii + 1]);
+            if (splitLine.Count > 1) {
+                for (int i = 1; i < splitLine.Count; i += 2) {
+
+                    lineDictionary.Add (splitLine[i], splitLine[i + 1]);
+                }
             }
-
             return lineDictionary;
         }
 
 #if UNITY_EDITOR
-        // 解析中の行数に対しエラーを出す。なので１行上のログがエラー発生行になります.
+        // 因为解析中的行已经发生报错。所以前一行就已经发生错误.
         public static void LineError (string alert) {
-            Debug.LogError ("エラー発生行 = " + CurrentReadingLine + "\n" + alert);
+            Debug.LogError ("error发生行 = " + CurrentReadingLine + "\n" + alert);
         }
 #endif
     }

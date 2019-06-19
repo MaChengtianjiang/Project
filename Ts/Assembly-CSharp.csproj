@@ -53,7 +53,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Action.cs" />
      <Compile Include="Assets\Scripts\Common\AddFileHeadComment.cs" />
      <Compile Include="Assets\Scripts\Common\Singleton.cs" />
      <Compile Include="Assets\Scripts\Data\Chara.cs" />
@@ -73,8 +72,9 @@
      <Compile Include="Assets\Scripts\SaveData\Crypt.cs" />
      <Compile Include="Assets\Scripts\SaveData\SaveData.cs" />
      <Compile Include="Assets\Scripts\ScenarioController.cs" />
+     <Compile Include="Assets\Scripts\ScenarioImage.cs" />
      <Compile Include="Assets\Scripts\ScenarioWindow.cs" />
-     <None Include="Assets\Resources\TXT\Scenario1.txt" />
+     <None Include="Assets\Resources\Txt\Scenario1.txt" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>/Users/tottimctj/TsProject/Ts/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>

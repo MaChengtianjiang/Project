@@ -67,7 +67,7 @@ public class CsvLoader
                 else
                 {
                     string typeSrt = dataTypeTable[dataKeyList[j]];
-                    Debug.Log("Key:" + dataKeyList[j] + ",Value:" + currentDatas[j]);
+                    //Debug.Log("Key:" + dataKeyList[j] + ",Value:" + currentDatas[j]);
                     // 登录本行数据
                     if (typeSrt == "string")
                     {

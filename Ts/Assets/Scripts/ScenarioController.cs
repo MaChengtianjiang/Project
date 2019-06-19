@@ -46,7 +46,6 @@ namespace Scenario
             CurrentScenarioCommands = null;
 
             Resources.Load(filePath);
-
             
         }
 

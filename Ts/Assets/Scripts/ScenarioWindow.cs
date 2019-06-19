@@ -8,56 +8,73 @@
  *Date:         2018-03-17 
  *Description:    
  *History: 
-*/  
+ */
 
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScenarioTextBox :  ScenarioImage {
+public class ScenarioTextBox : ScenarioImage {
 
     //主文本框
-    [SerializeField] private Text  MainTextBox;
-    
+    [SerializeField] private Text MainTextBox;
+
     //文本播放速度
     private float PlaySpeed = 0.1f;
 
     //文本当前位置
-    private int CurrentTextIndex = 0; 
+    private int CurrentTextIndex = 0;
     List<string> CurrentTextList = new List<string> {
-       "123",
-       "456"
-   };
-    
+        "123",
+        "456"
+    };
+
     //光标
     [SerializeField] private Image Cursor = null;
 
-    private void Start() {
-        Play("123");
+    private void Start () {
+        Play ("123");
     }
 
+    private void Play (string message) {
+        StartCoroutine (RunPlayMessage (message, message.Length, true));
+    }
 
-   private void Play(string message) {
-       StartCoroutine(RunPlayMessage(message, message.Length, true));
-   }
+    private IEnumerator RunPlayMessage (string message, int length, bool isEnd) {
 
-   private IEnumerator RunPlayMessage(string message, int length, bool isEnd) {
-
-        Cursor.gameObject.SetActive(false);
+        Cursor.gameObject.SetActive (false);
 
         while (CurrentTextIndex <= length) {
 
-        MainTextBox.text = message.Substring(0, CurrentTextIndex); ;
-        CurrentTextIndex ++;
-        yield return new WaitForSeconds(PlaySpeed);
-        
+            MainTextBox.text = message.Substring (0, CurrentTextIndex);;
+            CurrentTextIndex++;
+            yield return new WaitForSeconds (PlaySpeed);
+
         }
 
-        Cursor.gameObject.SetActive(isEnd);
-        
+        Cursor.gameObject.SetActive (isEnd);
 
-       yield break;
-   }
+        yield break;
+    }
+
+    public IEnumerator StartAddImageAlpha (bool isFade = false) {
+
+        float currentAlpha = isFade ? 1 : 0;
+        if (!isFade) { //出现
+            while (currentAlpha < 1) {
+                MainTextBox.color = new Color (0, 0, 0, 0.03f);
+                currentAlpha += 0.03f;
+                yield return null;
+            }
+        } else { //消失
+            while (currentAlpha > 1) {
+                MainTextBox.color = new Color (0, 0, 0, -0.03f);
+                currentAlpha += -0.03f;
+                yield return null;
+            }
+        }
+        yield break;
+
+    }
 }
