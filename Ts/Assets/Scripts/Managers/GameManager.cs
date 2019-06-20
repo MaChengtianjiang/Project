@@ -12,27 +12,23 @@
 
 using System.Collections;
 using System.Collections.Generic;
+
 using Scenario;
+
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
 
-	void Awake () {
+	void Awake ( ) {
 		DontDestroyOnLoad (this);
 		Dictionary<int, DataTable> charaTable = CsvLoader.LoadDataBaseCsv ("level");
-		var x = charaTable[50];
+		var x = charaTable [50];
 
 		//Debug.Log ("id:" + charaTable[50].GetIntValue ("Level") + "的Value:" + x.GetFloatValue ("PlayerExp"));
 		SceneManager.Instance.transform.SetParent (this.transform);
 
-		//ScenarioController.StartScenarion();
-
-		var text = TxtLoder.Load ("Scenario1");
-
-		var scenario = ScenarioLoader.ParseScriptListToCommand (text);
-
-
-		//ScenarioController scenarioController = new ScenarioController();
+		var scenarioController = ScenarioController.StartScenarion ( );
+		scenarioController.SetCurrentScenarioCommands ("Scenario1");
 
 	}
 

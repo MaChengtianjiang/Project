@@ -2,14 +2,14 @@
 #台词样本;
 #打开对话框(附带角色名);
 [OpenCharaSeirfWindow];
-#显示角色图片(角色 王凯  表情1);
+#显示角色图片(角色 王凯  表情1); 
 [ShowChara Image="WangKai" Face="1"];
 #王凯台词今天天气真好;
 [CharaSeirfWindow Name="王凯" Serif="今天天气真好啊"];
 #关闭对话框;
 [CloseCharaSeirfWindow];
 #打开分支选择对话框 (3种选择);
-[OpenSelectBranchWindow Branch="3" Serif="是啊天气好,昨天天气更好,听说马上要下雨了"];
+[OpenSelectBranchWindow Branch="3" BranchSerif="是啊天气好,昨天天气更好,听说马上要下雨了"];
 #分支1;
 [IFType1];
 [OpenCharaSeirfWindow];

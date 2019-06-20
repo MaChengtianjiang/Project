@@ -12,10 +12,11 @@
 
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScenarioTextBox : ScenarioImage {
+public class ScenarioWindow : ScenarioImage {
 
     //主文本框
     [SerializeField] private Text MainTextBox;
@@ -30,14 +31,17 @@ public class ScenarioTextBox : ScenarioImage {
         "456"
     };
 
+    private string currentMsg;
+
     //光标
     [SerializeField] private Image Cursor = null;
 
-    private void Start () {
-        Play ("123");
+    public void init (string msg) {
+        currentMsg = msg;
+        Play(currentMsg);
     }
 
-    private void Play (string message) {
+    public void Play (string message) {
         StartCoroutine (RunPlayMessage (message, message.Length, true));
     }
 

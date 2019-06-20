@@ -8,25 +8,23 @@
  *Date:         2018-03-12 
  *Description:    
  *History: 
-*/
+ */
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
-
-namespace Scenario
-{
-    public class ScenarioController : MonoBehaviour
-    {
+namespace Scenario {
+    public class ScenarioController : MonoBehaviour {
 
         public const string PrefabPath = "Prefab/Scenario/ScenarioController";
 
-        [SerializeField] private Bg MainBg = null;
+        //[SerializeField] private Bg MainBg = null;
         [SerializeField] private List<CharaImage> CharaImageList = null;
-        [SerializeField] private ScenarioTextBox TextBox = null;
+        [SerializeField] private ScenarioWindow ScenarioWindow = null;
 
         private float IntervalTime = 0.1f;
 
@@ -34,47 +32,47 @@ namespace Scenario
 
         [SerializeField] private ScenarioController Instance = null;
 
-        private ScenarioCommand[] CurrentScenarioCommands = null;
+        private List<ScenarioCommandAction> CurrentScenarioCommands = new List<ScenarioCommandAction> ( );
 
-        public static void StartScenarion()
-        {
-            GameObject go = Instantiate(Resources.Load(PrefabPath)) as GameObject;
-            go.transform.SetParent(GameObject.Find(ObjectDefine.GameManager).transform);
+        public static ScenarioController StartScenarion ( ) {
+            GameObject go = Instantiate (Resources.Load (PrefabPath)) as GameObject;
+            go.transform.SetParent (GameObject.Find (ObjectDefine.GameManager).transform);
+            return go.GetComponent<ScenarioController> ( );
         }
 
-        public void SetCurrentScenarioCommands(String filePath) {
-            CurrentScenarioCommands = null;
+        public void SetCurrentScenarioCommands (String filePath) {
+            CurrentScenarioCommands.Clear ( );
+            var text = TxtLoder.Load (filePath);
+            CurrentScenarioCommands = ScenarioLoader.ParseScriptListToCommand (text);
 
-            Resources.Load(filePath);
-            
+            ScenarioCommandMessageAction msgAction = (ScenarioCommandMessageAction) CurrentScenarioCommands [1];
+            //ScenarioWindow.setName (msgAction.Name);
+            ScenarioWindow.Play (msgAction.Serif);
         }
 
-        public IEnumerator Init(string bgName, string[] charaName, string[] charaFace)
-        {
+        public IEnumerator Init (string bgName, string [ ] charaName, string [ ] charaFace) {
             IsShow = false;
-            MainBg.SetBg(bgName);   //加载背景
+            //MainBg.SetBg (bgName); //加载背景
 
-            for (int i = 0; i < CharaImageList.Count; i++)
-            {
-                if (charaName[i] != string.Empty)
-                {
-                    CharaImageList[i].SetChara(charaName[i], charaFace[i]);  //加载角色
+            for (int i = 0; i < CharaImageList.Count; i++) {
+                if (charaName [i] != string.Empty) {
+                    CharaImageList [i].SetChara (charaName [i], charaFace [i]); //加载角色
                 }
             }
 
             //间隔 0.1秒
-            var interval = new WaitForSeconds(IntervalTime);
+            var interval = new WaitForSeconds (IntervalTime);
 
-            ShowBg();
-
-            yield return interval;
-            ShowChara(charaName, charaFace);
+            ShowBg ( );
 
             yield return interval;
+            ShowChara (charaName, charaFace);
 
-            ShowTextBox();
+            yield return interval;
 
-            var waitTime = new WaitForSeconds(0.3f);
+            ShowTextBox ( );
+
+            var waitTime = new WaitForSeconds (0.3f);
 
             yield return waitTime;
 
@@ -82,19 +80,18 @@ namespace Scenario
             yield break;
         }
 
-        public IEnumerator Quit()
-        {
+        public IEnumerator Quit ( ) {
 
             //间隔 0.1秒
-            var interval = new WaitForSeconds(IntervalTime);
-            ShowTextBox(true);
+            var interval = new WaitForSeconds (IntervalTime);
+            ShowTextBox (true);
 
             yield return interval;
-            ShowChara(null, null, true);
+            ShowChara (null, null, true);
 
             yield return interval;
-            ShowBg(true);
-            var waitTime = new WaitForSeconds(0.3f);
+            ShowBg (true);
+            var waitTime = new WaitForSeconds (0.3f);
 
             yield return waitTime;
             IsShow = false;
@@ -102,71 +99,52 @@ namespace Scenario
             yield break;
         }
 
-        private void ShowBg(bool isFade = false)
-        {
-            StartCoroutine(MainBg.StartAddImageAlpha(isFade));    //开始显示背景
+        private void ShowBg (bool isFade = false) {
+            //StartCoroutine (MainBg.StartAddImageAlpha (isFade)); //开始显示背景
         }
 
-        private void ShowChara(string[] charaName, string[] charaFace, bool isFade = false)
-        {
+        private void ShowChara (string [ ] charaName, string [ ] charaFace, bool isFade = false) {
 
-            for (int i = 0; i < CharaImageList.Count; i++)
-            {
-                if (charaName != null)
-                {
-                    if (charaName[i] != string.Empty)
-                    {
-                        StartCoroutine(CharaImageList[i].StartAddImageAlpha(isFade)); //显示角色
+            for (int i = 0; i < CharaImageList.Count; i++) {
+                if (charaName != null) {
+                    if (charaName [i] != string.Empty) {
+                        StartCoroutine (CharaImageList [i].StartAddImageAlpha (isFade)); //显示角色
                     }
-                }
-                else
-                {
-                    StartCoroutine(CharaImageList[i].StartAddImageAlpha(isFade)); //显示角色
+                } else {
+                    StartCoroutine (CharaImageList [i].StartAddImageAlpha (isFade)); //显示角色
                 }
             }
         }
 
-        private void ShowTextBox(bool isFade = false)
-        {
-            StartCoroutine(TextBox.StartAddImageAlpha(isFade));
+        private void ShowTextBox (bool isFade = false) {
+            StartCoroutine (ScenarioWindow.StartAddImageAlpha (isFade));
         }
 
+        public void SetScenarioText (string scenarioFileName) {
 
-        public void SetScenarioText(string scenarioFileName)
-        {
-
-            if (!IsShow)
-            {
+            if (!IsShow) {
                 return;
             }
-
 
         }
     }
 
-    public class ScenarioImage : MonoBehaviour
-    {
+    public class ScenarioImage : MonoBehaviour {
         [SerializeField] protected Image MainImage;
         bool IsShow = false;
 
-        public IEnumerator StartAddImageAlpha(bool isFade = false)
-        {
+        public IEnumerator StartAddImageAlpha (bool isFade = false) {
 
             float currentAlpha = isFade ? 1 : 0;
-            if (!isFade)
-            {  //出现
-                while (currentAlpha < 1)
-                {
-                    MainImage.color = new Color(0, 0, 0, 0.03f);
+            if (!isFade) { //出现
+                while (currentAlpha < 1) {
+                    MainImage.color = new Color (0, 0, 0, 0.03f);
                     currentAlpha += 0.03f;
                     yield return null;
                 }
-            }
-            else
-            {    //消失
-                while (currentAlpha > 1)
-                {
-                    MainImage.color = new Color(0, 0, 0, -0.03f);
+            } else { //消失
+                while (currentAlpha > 1) {
+                    MainImage.color = new Color (0, 0, 0, -0.03f);
                     currentAlpha += -0.03f;
                     yield return null;
                 }
@@ -176,22 +154,18 @@ namespace Scenario
         }
     }
 
-    public class Bg : ScenarioImage
-    {
+    public class Bg : ScenarioImage {
         private string BgImagePath = "";
-        public void SetBg(string fileName)
-        {
-            Sprite image = Resources.Load(BgImagePath + "¥" + fileName) as Sprite;
+        public void SetBg (string fileName) {
+            Sprite image = Resources.Load (BgImagePath + "¥" + fileName) as Sprite;
             MainImage.sprite = image;
         }
     }
 
-    public class CharaImage : ScenarioImage
-    {
+    public class CharaImage : ScenarioImage {
         private string CharaImagePath = "";
-        public void SetChara(string charaName, string charaFace)
-        {
-            Sprite image = Resources.Load(CharaImagePath + "¥" + charaName + "¥" + charaFace) as Sprite;
+        public void SetChara (string charaName, string charaFace) {
+            Sprite image = Resources.Load (CharaImagePath + "¥" + charaName + "¥" + charaFace) as Sprite;
             MainImage.sprite = image;
         }
     }
